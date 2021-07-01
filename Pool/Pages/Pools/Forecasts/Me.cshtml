@@ -1,0 +1,98 @@
+﻿@page
+@model DePool.Pages.Pools.Forecasts.MeModel
+
+@{
+    ViewData["Title"] = "Mijn Voorspellingen";
+}
+
+<h1>Mijn voorspellingen</h1>
+<p>
+    <a asp-page="All" asp-route-poolId="@Model.PoolId">Naar alle voorspellingen</a>
+</p>
+<hr />
+<p>
+    <a asp-page="Create" asp-route-poolId="@Model.PoolId">Nieuwe voorspelling</a>
+</p>
+<h4>Missend</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Wedstrijd
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.MissingForecasts)
+        {
+            <tr>
+                <td>
+                    @item.ToDisplayString()
+                </td>
+                <td>
+                    <a asp-page="Create" asp-route-poolId="@Model.PoolId" asp-route-gameId="@item.Id">
+                        Invullen
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Ingevuld</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Wedstrijd
+            </th>
+            <th>
+                Voorspelling
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SubmittedForecasts)
+        {
+            <tr>
+                <td>
+                    @item.Game.ToDisplayString()
+                </td>
+                <td>
+                    @item.GetGoalsString()
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Aanpassen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h4>Definitief</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Wedstrijd
+            </th>
+            <th>
+                Voorspelling
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DueForecasts)
+        {
+            <tr>
+                <td>
+                    @item.Game.ToDisplayString()
+                </td>
+                <td>
+                    @item.GetGoalsString()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

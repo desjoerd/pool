@@ -1,0 +1,114 @@
+﻿@page
+@model DePool.Pages.Pools.Forecasts.AllModel
+
+@{
+    ViewData["Title"] = "Alle Voorspellingen";
+    var userId = User.GetUserId();
+}
+
+<h1>Alle voorspellingen</h1>
+<p>
+    <a asp-page="Me" asp-route-poolId="@Model.PoolId">Naar mijn voorspellingen</a>
+</p>
+<hr />
+<p>
+    <a asp-page="Create" asp-route-poolId="@Model.PoolId">Nieuwe voorspelling</a>
+</p>
+<h4>Jouw missende voorspellingen</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Wedstrijd
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.MissingForecasts)
+        {
+            <tr>
+                <td>
+                    @item.ToDisplayString()
+                </td>
+                <td>
+                    <a asp-page="Create" asp-route-poolId="@Model.PoolId" asp-route-gameId="@item.Id">
+                        Invullen
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Alle Ingevulde aankomende voorspellingen</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Gebruiker
+            </th>
+            <th>
+                Wedstrijd
+            </th>
+            <th>
+                Voorspelling
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SubmittedForecasts)
+        {
+            <tr>
+                <td>
+                    @item.User.UserName
+                </td>
+                <td>
+                    @item.Game.ToDisplayString()
+                </td>
+                <td>
+                    @item.GetPublicString(userId)
+                </td>
+                <td>
+                    @if (item.UserId == userId)
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Aanpassen</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+<h4>Alle definitieve voorspellingen</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Gebruiker
+            </th>
+            <th>
+                Wedstrijd
+            </th>
+            <th>
+                Voorspelling
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DueForecasts)
+        {
+        <tr>
+            <td>
+                @item.User.UserName
+            </td>
+            <td>
+                @item.Game.ToDisplayString()
+            </td>
+            <td>
+                @item.GetPublicString(userId)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

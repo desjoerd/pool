@@ -1,0 +1,31 @@
+﻿@page
+@model DePool.Pages.Pools.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Pools</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pool[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Pool) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-page="./Forecasts/All" asp-route-poolId="@item.Id">Alle voorspellingen</a> |
+                <a asp-page="./Forecasts/Me" asp-route-poolId="@item.Id">Mijn voorspellingen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
